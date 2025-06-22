@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class Edit extends Component
 {
@@ -53,6 +54,11 @@ class Edit extends Component
 
     public function mount(Order $order)
     {
+        // Authorization check 
+        if (Auth::user()->role->name !== 'Food Processor') {
+            abort(403); // Forbidden
+        }
+
         $this->order = $order;
         $this->table_number = $order->table_number;
         $this->notes = $order->notes;
@@ -72,6 +78,7 @@ class Edit extends Component
 
         $this->loadProducts();
         $this->updateCanSubmit();
+        
     }
 
     public function loadProducts()
@@ -235,17 +242,42 @@ class Edit extends Component
     {
         $this->validate();
 
-        $total = collect($this->orderItems)->sum('subtotal');
-        if ($this->payment_received < $total) {
-            $this->addError('payment_received', 'Payment amount is insufficient.');
-            session()->flash('error', 'Payment amount is insufficient. Please enter an amount equal to or greater than the total.');
-            return;
-        }
-
         try {
             DB::beginTransaction();
 
-            // Update the order
+            // Restrict changes for Food Processor role
+            $role = Auth::user()->role->name;
+
+            if ($role === 'Food Processor') {
+                foreach ($this->orderItems as $item) {
+                    $orderItem = $this->order->items()->where('product_id', $item['product_id'])->first();
+
+                    if ($orderItem) {
+                        $orderItem->quantity = $item['quantity'];
+                        $orderItem->subtotal = $item['quantity'] * $orderItem->price;
+                        $orderItem->save();
+                    }
+                }
+
+                $this->order->notes = $this->notes;
+                $this->order->save();
+
+                DB::commit();
+
+                session()->flash('success', 'Order quantities updated.');
+                $this->dispatch('orderUpdated', $this->order->id);
+                return;
+            }
+
+            // --- For other roles (e.g., Admin, Cashier) ---
+            $total = collect($this->orderItems)->sum('subtotal');
+
+            if ($this->payment_received < $total) {
+                $this->addError('payment_received', 'Payment amount is insufficient.');
+                session()->flash('error', 'Payment amount is insufficient. Please enter an amount equal to or greater than the total.');
+                return;
+            }
+
             $this->order->update([
                 'table_number' => $this->table_number,
                 'total_amount' => $total,
@@ -254,10 +286,8 @@ class Edit extends Component
                 'notes' => $this->notes
             ]);
 
-            // Delete existing items
+            // Delete old and create new items
             $this->order->items()->delete();
-
-            // Create new order items
             foreach ($this->orderItems as $item) {
                 $this->order->items()->create([
                     'product_id' => $item['product_id'],
@@ -266,7 +296,6 @@ class Edit extends Component
                     'subtotal' => $item['subtotal']
                 ]);
 
-                // Update product stock
                 $product = Product::find($item['product_id']);
                 if ($product) {
                     $product->decrement('stock', $item['quantity']);
@@ -274,9 +303,8 @@ class Edit extends Component
             }
 
             DB::commit();
-
-            $this->dispatch('orderUpdated', $this->order->id);
             session()->flash('success', 'Order updated successfully!');
+            $this->dispatch('orderUpdated', $this->order->id);
 
         } catch (\Exception $e) {
             DB::rollBack();

@@ -200,7 +200,7 @@
                 </div>
 
                 {{-- Login Form --}}
-                <form action="/" method="POST" class="space-y-6" id="loginForm">
+                <form action="{{ route('login') }}" method="POST" class="space-y-6" id="loginForm">
                     @csrf
                     
                     <div class="space-y-5">

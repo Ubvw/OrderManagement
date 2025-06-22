@@ -234,3 +234,25 @@
         @endif
     </div>
 </div> 
+
+@php
+    $isFoodProcessor = auth()->user()->role->name === 'Food Processor';
+@endphp
+
+{{-- Example: Allow editing quantity but not price/name --}}
+@foreach ($orderItems as $index => $item)
+    <div class="flex gap-4 mb-3">
+        {{-- Product name (readonly) --}}
+        <input type="text" value="{{ $item['name'] }}" class="bg-gray-100 text-gray-500" readonly>
+
+        {{-- Quantity (editable) --}}
+        <input type="number" wire:model="orderItems.{{ $index }}.quantity" min="1">
+
+        {{-- Price (readonly for Food Processor) --}}
+        @if (!$isFoodProcessor)
+            <input type="number" wire:model="orderItems.{{ $index }}.price">
+        @else
+            <input type="number" value="{{ $item['price'] }}" readonly class="bg-gray-100 text-gray-500">
+        @endif
+    </div>
+@endforeach

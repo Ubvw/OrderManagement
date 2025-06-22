@@ -1,34 +1,51 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use Livewire\Volt\Volt;
-use App\Livewire\Products\Index as ProductsIndex;
+use Illuminate\Http\Request;
+
 use App\Livewire\Orders\Index as OrdersIndex;
-use App\Livewire\Reports\Index as ReportsIndex;
+use App\Livewire\Orders\Edit as OrdersEdit;
+use App\Livewire\Orders\Create as OrdersCreate;
 use App\Livewire\Dashboard\Index as DashboardIndex;
-
-Route::get('/products', ProductsIndex::class)->name('products.index');
-
-Route::get('/orders', OrdersIndex::class)->name('orders.index');
-
-Route::get('/reports', ReportsIndex::class)->name('reports.index');
-
-Route::get('/dashboard', DashboardIndex::class)->name('dashboard');
 
 Route::get('/', function () {
     return view('welcome');
-})->name('home');
+});
 
-// Route::view('dashboard', 'dashboard')
-//     ->middleware(['auth', 'verified'])
-//     ->name('dashboard');
+Route::get('/dashboard', DashboardIndex::class)
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
-// Route::middleware(['auth'])->group(function () {
-//     Route::redirect('settings', 'settings/profile');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-//     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
-//     Volt::route('settings/password', 'settings.password')->name('settings.password');
-//     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
-// });
+// Admin: Can do everything
+// Admin: Can do everything
+Route::middleware(['auth', 'role:Admin'])->group(function () {
+    Route::get('/admin', fn () => 'Welcome Admin!');
+    Route::get('/orders', OrdersIndex::class)->name('orders.index');
+    Route::get('/orders/create', OrdersCreate::class)->name('orders.create');
+    Route::get('/orders/edit/{order}', OrdersEdit::class)->name('orders.edit');
+    Route::get('/products', \App\Livewire\Products\Index::class)->name('products.index');
+    Route::get('/reports', \App\Livewire\Reports\Index::class)->name('reports.index');
+});
 
-// require __DIR__.'/auth.php';
+// Cashier: CRUD orders only
+Route::middleware(['auth', 'role:Cashier'])->group(function () {
+    Route::get('/orders', OrdersIndex::class)->name('orders.index');
+    Route::get('/orders/create', OrdersCreate::class)->name('orders.create');
+    Route::get('/orders/edit/{order}', OrdersEdit::class)->name('orders.edit');
+    // Add delete route if needed
+});
+
+// Food Processor: Only update orders
+Route::middleware(['auth', 'role:Food Processor'])->group(function () {
+    Route::get('/orders/edit/{order}', OrdersEdit::class)->name('orders.edit');
+});
+
+
+require __DIR__.'/auth.php';

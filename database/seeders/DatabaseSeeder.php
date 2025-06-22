@@ -3,7 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Product;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,6 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Seed products
         Product::create([
             'name' => 'Burger',
             'description' => 'Juicy beef burger with cheese',
@@ -25,5 +29,20 @@ class DatabaseSeeder extends Seeder
             'price' => 2.99,
             'stock' => 50,
         ]);
+
+        // Seed roles if they don't exist
+        foreach (['Admin', 'Cashier', 'Food Processor'] as $roleName) {
+            Role::firstOrCreate(['name' => $roleName]);
+        }
+
+        // Create admin user if not exists
+        User::firstOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name' => 'Admin User',
+                'password' => Hash::make('password'),
+                'role_id' => Role::where('name', 'Admin')->value('id'),
+            ]
+        );
     }
 }
