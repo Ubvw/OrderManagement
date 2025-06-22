@@ -9,15 +9,15 @@ use Illuminate\Support\Facades\Auth;
 
 class RoleMiddleware
 {
-    public function handle($request, Closure $next, $role)
+    public function handle($request, Closure $next, $roles)
     {
         $user = Auth::user();
         if (!$user) {
             abort(403);
         }
 
-        // Allow Admin to access everything
-        if ($user->role->name === 'Admin' || $user->role->name === $role) {
+        $roleList = explode(',', $roles);
+        if (in_array($user->role->name, $roleList) || $user->role->name === 'Admin') {
             return $next($request);
         }
 

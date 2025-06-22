@@ -23,8 +23,12 @@
         <!-- User Profile -->
         <div class="flex items-center space-x-3 bg-slate-700/30 hover:bg-slate-600/40 rounded-2xl px-5 py-3 transition-all duration-300 cursor-pointer group backdrop-blur-sm border border-slate-600/30 hover:border-slate-500/50">
             <div class="flex flex-col items-end">
-                <span class="text-sm font-bold text-white group-hover:text-slate-100 tracking-wide">Admin User</span>
-                <span class="text-xs text-slate-400 group-hover:text-slate-300 font-semibold">Administrator</span>
+                <span class="text-sm font-bold text-white group-hover:text-slate-100 tracking-wide">
+                    {{ auth()->user()->name ?? 'User' }}
+                </span>
+                <span class="text-xs text-slate-400 group-hover:text-slate-300 font-semibold">
+                    {{ auth()->user()->role->name ?? '' }}
+                </span>            
             </div>
             
             <!-- Avatar -->

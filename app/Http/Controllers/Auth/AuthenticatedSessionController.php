@@ -25,19 +25,20 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
         $request->session()->regenerate();
+
+        // Remove the intended URL from the session
+        $request->session()->forget('url.intended');
 
         $user = Auth::user();
 
         $redirectTo = match ($user->role->name ?? null) {
-            'Admin' => '/admin',
+            'Admin' => '/dashboard',
             'Cashier' => '/orders',
-            'Food Processor' => '/kitchen',
+            'Food Processor' => '/orders',
             default => '/',
         };
-
-        return redirect()->intended($redirectTo);
+        return redirect($redirectTo);
     }
 
     /**
