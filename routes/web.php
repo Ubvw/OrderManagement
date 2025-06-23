@@ -48,6 +48,7 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::get('/admin', fn () => 'Welcome Admin!');
     Route::get('/products', \App\Livewire\Products\Index::class)->name('products.index');
     Route::get('/reports', \App\Livewire\Reports\Index::class)->name('reports.index');
+    Route::resource('/users', \App\Http\Controllers\UserController::class);
 });
 
 require __DIR__.'/auth.php';

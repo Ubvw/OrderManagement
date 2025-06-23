@@ -20,9 +20,10 @@
 
     <!-- Right Section - Actions & Profile -->
     <div class="flex items-center space-x-4">
+        
         <!-- User Profile -->
-        <div class="flex items-center space-x-3 bg-slate-700/30 hover:bg-slate-600/40 rounded-2xl px-5 py-3 transition-all duration-300 cursor-pointer group backdrop-blur-sm border border-slate-600/30 hover:border-slate-500/50">
-            <div class="flex flex-col items-end">
+        <div x-data="{ open: false }" class="relative flex items-center space-x-3 bg-slate-700/30 hover:bg-slate-600/40 rounded-2xl px-5 py-3 transition-all duration-300 cursor-pointer group backdrop-blur-sm border border-slate-600/30 hover:border-slate-500/50">
+            <div class="flex flex-col items-end" @click="open = !open">
                 <span class="text-sm font-bold text-white group-hover:text-slate-100 tracking-wide">
                     {{ auth()->user()->name ?? 'User' }}
                 </span>
@@ -30,20 +31,24 @@
                     {{ auth()->user()->role->name ?? '' }}
                 </span>            
             </div>
-            
             <!-- Avatar -->
-            <div class="relative">
+            <div class="relative" @click="open = !open">
                 <div class="w-11 h-11 bg-gradient-to-br from-primary to-primary-dark rounded-2xl flex items-center justify-center shadow-soft-lg shadow-primary/25 ring-2 ring-slate-600/30">
                     <span class="text-white text-sm font-black">AU</span>
                 </div>
-                <!-- Online Status -->
                 <div class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-400 rounded-full border-2 border-slate-900 shadow-sm"></div>
             </div>
-
             <!-- Dropdown Arrow -->
-            <svg class="w-4 h-4 text-slate-400 group-hover:text-slate-300 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 text-slate-400 group-hover:text-slate-300 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" @click="open = !open">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
+            <!-- Dropdown -->
+            <div x-show="open" @click.away="open = false" class="absolute right-0 mt-16 w-40 bg-white rounded shadow-lg z-50 py-2">
+                <form method="GET" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log out</button>
+                </form>
+            </div>
         </div>
     </div>
 </header>
