@@ -14,6 +14,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// log out function
 Route::get('/logout', function () {
     Auth::logout();
     request()->session()->invalidate();
@@ -22,7 +23,7 @@ Route::get('/logout', function () {
 })->name('logout');
 
 Route::get('/dashboard', DashboardIndex::class)
-    ->middleware(['auth', 'verified', 'role:Admin,Cashier'])
+    ->middleware(['auth', 'verified', 'role:Admin'])
     ->name('dashboard');
     
 Route::middleware(['auth'])->group(function () {
@@ -31,28 +32,22 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Admin: Can do everything
+// Orders: shared by Admin, Cashier, Food Processor
+Route::middleware(['auth', 'role:Admin,Cashier,Food Processor'])->group(function () {
+    Route::get('/orders', OrdersIndex::class)->name('orders.index');
+    Route::get('/orders/edit/{order}', OrdersEdit::class)->name('orders.edit');
+});
+
+// Only Admin and Cashier can create orders
+Route::middleware(['auth', 'role:Admin,Cashier'])->group(function () {
+    Route::get('/orders/create', OrdersCreate::class)->name('orders.create');
+});
+
+// Admin: Can do everything else
 Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::get('/admin', fn () => 'Welcome Admin!');
-    Route::get('/orders', OrdersIndex::class)->name('orders.index');
-    Route::get('/orders/create', OrdersCreate::class)->name('orders.create');
-    Route::get('/orders/edit/{order}', OrdersEdit::class)->name('orders.edit');
     Route::get('/products', \App\Livewire\Products\Index::class)->name('products.index');
     Route::get('/reports', \App\Livewire\Reports\Index::class)->name('reports.index');
-});
-
-// Cashier: CRUD orders only
-Route::middleware(['auth', 'role:Cashier'])->group(function () {
-    Route::get('/orders', OrdersIndex::class)->name('orders.index');
-    Route::get('/orders/create', OrdersCreate::class)->name('orders.create');
-    Route::get('/orders/edit/{order}', OrdersEdit::class)->name('orders.edit');
-    // Add delete route if needed
-});
-
-// Food Processor: Only update orders
-Route::middleware(['auth', 'role:Food Processor'])->group(function () {
-    Route::get('/orders', OrdersIndex::class)->name('orders.index');
-    Route::get('/orders/edit/{order}', OrdersEdit::class)->name('orders.edit');
 });
 
 require __DIR__.'/auth.php';

@@ -6,21 +6,30 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class RoleMiddleware
 {
-    public function handle($request, Closure $next, $roles)
+    public function handle($request, Closure $next, ...$roles)
     {
         $user = Auth::user();
+
         if (!$user) {
-            abort(403);
+            abort(403, 'Unauthorized');
         }
 
-        $roleList = explode(',', $roles);
-        if (in_array($user->role->name, $roleList) || $user->role->name === 'Admin') {
+        // Allow if role matches any of the allowed roles
+        if (in_array($user->role->name, $roles)) {
             return $next($request);
         }
 
-        abort(403);
+        Log::warning('RoleMiddleware blocked access', [
+            'user' => $user->email,
+            'role' => $user->role->name,
+            'allowed' => $roles
+        ]);
+
+        abort(403, 'Unauthorized');
     }
+
 }

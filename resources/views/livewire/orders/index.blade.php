@@ -7,12 +7,21 @@
             <h1 class="text-3xl font-black text-white tracking-tight">Orders</h1>
             <p class="text-slate-300 text-base font-medium">Manage and track restaurant orders</p>
         </div>
-        <button wire:click="openModal" class="px-8 py-4 bg-gradient-to-r from-primary to-primary-dark text-white rounded-2xl hover:shadow-glow transition-all duration-300 font-bold tracking-wide uppercase text-sm shadow-soft-lg">
-            <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-            </svg>
-            New Order
-        </button>
+
+        {{-- if you have food processor roel you wont see create button --}}
+        @php
+            $role = auth()->user()->role->name ?? '';
+        @endphp
+
+        @if($role !== 'Food Processor')
+            <button wire:click="openModal" class="px-8 py-4 bg-gradient-to-r from-primary to-primary-dark text-white rounded-2xl hover:shadow-glow transition-all duration-300 font-bold tracking-wide uppercase text-sm shadow-soft-lg">
+                <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
+                New Order
+            </button>
+        @endif
+
     </div>
 </div>
 
