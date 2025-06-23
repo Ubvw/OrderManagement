@@ -1,5 +1,13 @@
 <aside class="w-64 flex-shrink-0 p-6">
     <nav class="space-y-2">
+
+    
+        {{-- function so admin lang nakakakita --}}
+        @php
+            $role = auth()->user()->role->name ?? '';
+        @endphp
+
+        @if($role === 'Admin')
         <a href="/dashboard" class="group flex items-center space-x-4 px-4 py-3 rounded-2xl transition-all duration-300 {{ ($activeSection ?? '') === 'dashboard' ? 'text-white bg-gradient-to-r from-primary to-primary-dark shadow-soft-lg shadow-primary/25' : 'text-slate-300 hover:text-white hover:bg-slate-800/50 hover:shadow-md' }}">
             <div class="flex items-center justify-center w-10 h-10 rounded-xl {{ ($activeSection ?? '') === 'dashboard' ? 'bg-white/20 text-white shadow-inner' : 'bg-slate-800/50 text-slate-400 group-hover:bg-slate-700/50 group-hover:text-slate-200' }} transition-all duration-300">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -11,6 +19,7 @@
                 <div class="w-1 h-8 bg-white/30 rounded-full ml-auto"></div>
             @endif
         </a>
+        @endif
 
         <a href="/orders" class="group flex items-center space-x-4 px-4 py-3 rounded-2xl transition-all duration-300 {{ ($activeSection ?? '') === 'orders' ? 'text-white bg-gradient-to-r from-primary to-primary-dark shadow-soft-lg shadow-primary/25' : 'text-slate-300 hover:text-white hover:bg-slate-800/50 hover:shadow-md' }}">
             <div class="flex items-center justify-center w-10 h-10 rounded-xl {{ ($activeSection ?? '') === 'orders' ? 'bg-white/20 text-white shadow-inner' : 'bg-slate-800/50 text-slate-400 group-hover:bg-slate-700/50 group-hover:text-slate-200' }} transition-all duration-300">
@@ -24,6 +33,8 @@
             @endif
         </a>
 
+        {{-- function so admin lang nakakakita --}}
+        @if($role === 'Admin')
         <a href="/products" class="group flex items-center space-x-4 px-4 py-3 rounded-2xl transition-all duration-300 {{ ($activeSection ?? '') === 'products' ? 'text-white bg-gradient-to-r from-primary to-primary-dark shadow-soft-lg shadow-primary/25' : 'text-slate-300 hover:text-white hover:bg-slate-800/50 hover:shadow-md' }}">
             <div class="flex items-center justify-center w-10 h-10 rounded-xl {{ ($activeSection ?? '') === 'products' ? 'bg-white/20 text-white shadow-inner' : 'bg-slate-800/50 text-slate-400 group-hover:bg-slate-700/50 group-hover:text-slate-200' }} transition-all duration-300">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -35,7 +46,9 @@
                 <div class="w-1 h-8 bg-white/30 rounded-full ml-auto"></div>
             @endif
         </a>
+        @endif
 
+        @if($role === 'Admin')
         <a href="/reports" class="group flex items-center space-x-4 px-4 py-3 rounded-2xl transition-all duration-300 {{ ($activeSection ?? '') === 'reports' ? 'text-white bg-gradient-to-r from-primary to-primary-dark shadow-soft-lg shadow-primary/25' : 'text-slate-300 hover:text-white hover:bg-slate-800/50 hover:shadow-md' }}">
             <div class="flex items-center justify-center w-10 h-10 rounded-xl {{ ($activeSection ?? '') === 'reports' ? 'bg-white/20 text-white shadow-inner' : 'bg-slate-800/50 text-slate-400 group-hover:bg-slate-700/50 group-hover:text-slate-200' }} transition-all duration-300">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -47,7 +60,9 @@
                 <div class="w-1 h-8 bg-white/30 rounded-full ml-auto"></div>
             @endif
         </a>
+        @endif
 
+        @if($role === 'Admin')
         <a href="/users" class="group flex items-center space-x-4 px-4 py-3 rounded-2xl transition-all duration-300 {{ ($activeSection ?? '') === 'users' ? 'text-white bg-gradient-to-r from-primary to-primary-dark shadow-soft-lg shadow-primary/25' : 'text-slate-300 hover:text-white hover:bg-slate-800/50 hover:shadow-md' }}">
             <div class="flex items-center justify-center w-10 h-10 rounded-xl {{ ($activeSection ?? '') === 'users' ? 'bg-white/20 text-white shadow-inner' : 'bg-slate-800/50 text-slate-400 group-hover:bg-slate-700/50 group-hover:text-slate-200' }} transition-all duration-300">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -59,5 +74,7 @@
                 <div class="w-1 h-8 bg-white/30 rounded-full ml-auto"></div>
             @endif
         </a>
+        @endif
+
     </nav>
 </aside>
