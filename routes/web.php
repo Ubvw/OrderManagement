@@ -19,11 +19,11 @@ Route::get('/logout', function () {
     Auth::logout();
     request()->session()->invalidate();
     request()->session()->regenerateToken();
-    return redirect('/');
+    return redirect(to: '/');
 })->name('logout');
 
 Route::get('/dashboard', DashboardIndex::class)
-    ->middleware(['auth', 'verified', 'role:Admin'])
+    ->middleware(['auth', 'verified', 'role:Admin,Food Processor'])
     ->name('dashboard');
     
 Route::middleware(['auth'])->group(function () {

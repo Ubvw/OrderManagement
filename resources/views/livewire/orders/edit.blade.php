@@ -73,6 +73,10 @@
                         </tr>
                     </thead>
                     <tbody class="bg-slate-800/30 divide-y divide-slate-600">
+                        @php
+                            $isFoodProcessor = auth()->user()->role->name === 'Food Processor';
+                            $isCashier = auth()->user()->role->name === 'Cashier';
+                        @endphp
                         @foreach($orderItems as $index => $item)
                         <tr class="hover:bg-slate-700/30 transition-colors duration-200">
                             <td class="px-4 py-4 text-sm font-bold text-white">{{ $item['name'] }}</td>
@@ -85,10 +89,16 @@
                             <td class="px-4 py-4 text-sm text-slate-300 font-semibold">${{ number_format($item['price'], 2) }}</td>
                             <td class="px-4 py-4 text-sm font-black text-primary tracking-wide">${{ number_format($item['subtotal'], 2) }}</td>
                             <td class="px-4 py-4">
-                                <button wire:click="removeItem({{ $index }})" 
-                                        class="text-xs font-bold text-red-400 hover:text-red-300 bg-red-900/30 hover:bg-red-900/50 px-3 py-2 rounded-md transition-all duration-200 border border-red-700/50 uppercase tracking-wide">
-                                    Remove
-                                </button>
+                                @if($isCashier)
+                                    <button type="button" class="text-xs font-bold text-blue-400 hover:text-blue-300 bg-blue-900/30 hover:bg-blue-900/50 px-3 py-2 rounded-md transition-all duration-200 border border-blue-700/50 uppercase tracking-wide">
+                                        View
+                                    </button>
+                                @else
+                                    <button wire:click="removeItem({{ $index }})" 
+                                            class="text-xs font-bold text-red-400 hover:text-red-300 bg-red-900/30 hover:bg-red-900/50 px-3 py-2 rounded-md transition-all duration-200 border border-red-700/50 uppercase tracking-wide">
+                                        Remove
+                                    </button>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -208,16 +218,6 @@
                 <div class="flex">
                     <div class="flex-shrink-0">
                         <svg class="h-5 w-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                    <div class="ml-3">
-                        <p class="text-sm font-bold text-green-300">{{ session('success') }}</p>
-                    </div>
-                </div>
-            </div>
-        @endif
-
         @if (session()->has('error'))
             <div class="p-4 bg-red-900/50 border border-red-700 rounded-lg shadow-lg backdrop-blur-sm">
                 <div class="flex">

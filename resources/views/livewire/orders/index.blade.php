@@ -161,44 +161,45 @@
                 </td>
                 <td class="p-6">
                     <div class="flex items-center space-x-2 opacity-70 group-hover:opacity-100 transition-opacity duration-200">
-                        @if($order->status === 'pending')
-                            <button wire:click="updateStatus({{ $order->id }}, 'processing')" 
-                                class="px-4 py-2.5 bg-blue-600/90 hover:bg-blue-600 text-white rounded-xl text-xs flex items-center transition-all duration-200 font-bold uppercase tracking-wide shadow-soft hover:shadow-soft-lg hover:scale-105">
-                                <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
-                                </svg>
-                                Process
-                            </button>
-                        @elseif($order->status === 'processing')
-                            <button wire:click="updateStatus({{ $order->id }}, 'completed')" 
-                                class="px-4 py-2.5 bg-emerald-600/90 hover:bg-emerald-600 text-white rounded-xl text-xs flex items-center transition-all duration-200 font-bold uppercase tracking-wide shadow-soft hover:shadow-soft-lg hover:scale-105">
-                                <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                                Complete
-                            </button>
-                        @endif
+                        @if($role !== 'Cashier')
+                            @if($order->status === 'pending')
+                                <button wire:click="updateStatus({{ $order->id }}, 'processing')" 
+                                    class="px-4 py-2.5 bg-blue-600/90 hover:bg-blue-600 text-white rounded-xl text-xs flex items-center transition-all duration-200 font-bold uppercase tracking-wide shadow-soft hover:shadow-soft-lg hover:scale-105">
+                                    <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                                    </svg>
+                                    Process
+                                </button>
+                            @elseif($order->status === 'processing')
+                                <button wire:click="updateStatus({{ $order->id }}, 'completed')" 
+                                    class="px-4 py-2.5 bg-emerald-600/90 hover:bg-emerald-600 text-white rounded-xl text-xs flex items-center transition-all duration-200 font-bold uppercase tracking-wide shadow-soft hover:shadow-soft-lg hover:scale-105">
+                                    <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    Complete
+                                </button>
+                            @endif
 
-                        @if($order->status === 'pending' || $order->status === 'processing')
-                            <button wire:click="cancelOrder({{ $order->id }})" 
-                                class="px-4 py-2.5 bg-rose-600/90 hover:bg-rose-600 text-white rounded-xl text-xs flex items-center transition-all duration-200 font-bold uppercase tracking-wide shadow-soft hover:shadow-soft-lg hover:scale-105">
-                                <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                </svg>
-                                Cancel
-                            </button>
-                        @endif
+                            @if($order->status === 'pending' || $order->status === 'processing')
+                                <button wire:click="cancelOrder({{ $order->id }})" 
+                                    class="px-4 py-2.5 bg-rose-600/90 hover:bg-rose-600 text-white rounded-xl text-xs flex items-center transition-all duration-200 font-bold uppercase tracking-wide shadow-soft hover:shadow-soft-lg hover:scale-105">
+                                    <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                    Cancel
+                                </button>
+                            @endif
 
-                        @if($order->status === 'pending')
-                            <button wire:click="editOrder({{ $order->id }})" 
-                                class="px-4 py-2.5 bg-amber-600/90 hover:bg-amber-600 text-white rounded-xl text-xs flex items-center transition-all duration-200 font-bold uppercase tracking-wide shadow-soft hover:shadow-soft-lg hover:scale-105">
-                                <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                </svg>
-                                Edit
-                            </button>
+                            @if($order->status === 'pending')
+                                <button wire:click="editOrder({{ $order->id }})" 
+                                    class="px-4 py-2.5 bg-amber-600/90 hover:bg-amber-600 text-white rounded-xl text-xs flex items-center transition-all duration-200 font-bold uppercase tracking-wide shadow-soft hover:shadow-soft-lg hover:scale-105">
+                                    <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                    </svg>
+                                    Edit
+                                </button>
+                            @endif
                         @endif
-
                         <button wire:click="viewOrder({{ $order->id }})" 
                             class="px-4 py-2.5 bg-gradient-to-r from-primary to-primary-dark text-white rounded-xl hover:shadow-glow text-xs flex items-center transition-all duration-200 font-bold uppercase tracking-wide shadow-soft hover:scale-105">
                             <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
