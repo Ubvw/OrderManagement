@@ -23,7 +23,7 @@ Route::get('/logout', function () {
 })->name('logout');
 
 Route::get('/dashboard', DashboardIndex::class)
-    ->middleware(['auth', 'verified', 'role:Admin,Food Processor'])
+    ->middleware(['auth', 'verified', 'role:Admin'])
     ->name('dashboard');
     
 Route::middleware(['auth'])->group(function () {

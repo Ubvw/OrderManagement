@@ -2,12 +2,12 @@
     <nav class="space-y-2">
 
     
-        {{-- function so admin + food processor lang nakakakita sa dashboard--}}
+        {{-- function so admin lang nakakakita sa dashboard--}}
         @php
             $role = auth()->user()->role->name ?? '';
         @endphp
 
-        @if(in_array($role, ['Admin', 'Food Processor']))
+        @if($role === 'Admin')
         <a href="/dashboard" class="group flex items-center space-x-4 px-4 py-3 rounded-2xl transition-all duration-300 {{ ($activeSection ?? '') === 'dashboard' ? 'text-white bg-gradient-to-r from-primary to-primary-dark shadow-soft-lg shadow-primary/25' : 'text-slate-300 hover:text-white hover:bg-slate-800/50 hover:shadow-md' }}">
             <div class="flex items-center justify-center w-10 h-10 rounded-xl {{ ($activeSection ?? '') === 'dashboard' ? 'bg-white/20 text-white shadow-inner' : 'bg-slate-800/50 text-slate-400 group-hover:bg-slate-700/50 group-hover:text-slate-200' }} transition-all duration-300">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
