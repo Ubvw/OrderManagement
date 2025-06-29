@@ -83,6 +83,18 @@
             </div>
         </div>
     @endif
+    @if (session()->has('message'))
+        <div class="bg-green-50 border border-green-200 text-green-700 px-6 py-4 rounded-2xl shadow-soft animate-in slide-in-from-top-2 duration-300" role="alert">
+            <div class="flex items-center">
+                <div class="bg-green-100 rounded-full p-1 mr-3">
+                    <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <span class="font-bold">{{ session('message') }}</span>
+            </div>
+        </div>
+    @endif
 
     @if (session()->has('error'))
         <div class="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-2xl shadow-soft animate-in slide-in-from-top-2 duration-300" role="alert">

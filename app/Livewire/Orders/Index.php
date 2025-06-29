@@ -57,7 +57,7 @@ class Index extends Component
     {
         $this->closeModal();
         $this->loadStatusCounts();
-        session()->flash('message', 'Order created successfully!');
+        session()->flash('success', 'Order created successfully!');
     }
 
     public function handleOrderUpdated($orderId)
