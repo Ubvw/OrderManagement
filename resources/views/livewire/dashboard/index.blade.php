@@ -19,7 +19,7 @@
         {{-- Title Section --}}
         <div class="flex items-center space-x-4">
             <div>
-                <h1 class="text-3xl font-black text-gray-800 tracking-tight">Dashboard</h1>
+                <h1 class="text-5xl font-black text-gray-800 tracking-tight">Dashboard</h1>
                 <p class="text-gray-600 text-base font-medium">Welcome back! Here's what's happening today.</p>
             </div>
         </div>
@@ -130,7 +130,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/>
                     </svg>
                 </div>
-                <h2 class="text-xl font-black text-gray-800 tracking-tight">Top 3 Foods Today</h2>
+                <h2 class="text-xl font-black text-gray-800 tracking-tight">Top 3 Dishes Today</h2>
             </div>
             
             @if($topProducts->isNotEmpty())

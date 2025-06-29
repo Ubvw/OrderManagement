@@ -17,11 +17,11 @@
     {{-- Clean Header Section --}}
     <div class="flex justify-between items-center">
         <div class="space-y-3">
-            <h1 class="text-3xl font-black text-gray-800 tracking-tight">
-                {{ $showArchived ? 'Archived Foods' : 'Menu' }}
+            <h1 class="text-5xl font-black text-gray-800 tracking-tight">
+                {{ $showArchived ? 'Archived Dishes' : 'Menu' }}
             </h1>
             <p class="text-gray-600 text-base font-medium">
-                {{ $showArchived ? 'Manage archived foods and restore them' : 'Manage your restaurant menu and inventory' }}
+                {{ $showArchived ? 'Manage archived dishes and restore them' : 'Manage your restaurant menu and inventory' }}
             </p>
         </div>
         <div class="flex items-center space-x-3">
@@ -35,7 +35,7 @@
                     <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
-                    Add Foods
+                    Add Dishes
                 </button>
             @endif
         </div>
@@ -50,10 +50,10 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <h2 class="text-3xl font-black text-gray-800 tracking-tight">
-                                {{ $productId ? 'Edit Food' : 'Add Food' }}
+                                {{ $productId ? 'Edit Dish' : 'Add Dish' }}
                             </h2>
                             <p class="text-sm text-gray-600 mt-2 font-semibold">
-                                {{ $productId ? 'Update food information' : 'Create a new menu item' }}
+                                {{ $productId ? 'Update dish information' : 'Create a new menu item' }}
                             </p>
                         </div>
                         <button wire:click="resetForm" class="text-gray-400 hover:text-gray-600 transition-colors duration-300 hover:scale-110">
@@ -69,7 +69,7 @@
                     <form wire:submit.prevent="save" class="space-y-6">
                         {{-- Image Upload --}}
                         <div class="space-y-3">
-                            <label class="block text-gray-700 font-bold text-sm uppercase tracking-wide">Food Image</label>
+                            <label class="block text-gray-700 font-bold text-sm uppercase tracking-wide">Dish Image</label>
                             <div class="relative">
                                 <input type="file" wire:model="image" class="w-full bg-gray-50 border border-gray-300 rounded-2xl px-4 py-3 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300 font-medium">
                                 @error('image') <span class="text-red-500 text-sm font-semibold mt-1 block">{{ $message }}</span> @enderror
@@ -136,7 +136,7 @@
                                 Cancel
                             </button>
                             <button type="submit" class="px-8 py-3 bg-gradient-to-r from-primary to-primary-dark text-white rounded-2xl hover:shadow-lg hover:shadow-primary/25 transition-all duration-300 font-bold tracking-wide uppercase">
-                                {{ $productId ? 'Update Food' : 'Save Food' }}
+                                {{ $productId ? 'Update Dish' : 'Save Dish' }}
                             </button>
                         </div>
                     </form>
@@ -233,11 +233,11 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
                         </svg>
                     </div>
-                    <p class="text-xl font-bold text-gray-700 mb-2">No foods in this category</p>
-                    <p class="text-sm font-medium text-gray-500">Add your first food to get started</p>
+                    <p class="text-xl font-bold text-gray-700 mb-2">No dishes in this category</p>
+                    <p class="text-sm font-medium text-gray-500">Add your first dish to get started</p>
                     @if (!$showArchived)
                         <button wire:click="create" class="mt-6 px-6 py-3 bg-gradient-to-r from-primary to-primary-dark text-white rounded-2xl hover:shadow-lg hover:shadow-primary/25 transition-all duration-300 font-bold text-sm">
-                            Add First Food
+                            Add First Dish
                         </button>
                     @endif
                 </div>

@@ -30,7 +30,7 @@
     {{-- Clean Header Section --}}
     <div class="flex justify-between items-center">
         <div class="space-y-3">
-            <h1 class="text-3xl font-black text-gray-800 tracking-tight">Users</h1>
+            <h1 class="text-5xl font-black text-gray-800 tracking-tight">Users</h1>
             <p class="text-gray-600 text-base font-medium">Manage system users and their roles</p>
         </div>
         <div class="flex items-center space-x-3">
@@ -76,7 +76,7 @@
     <div class="bg-white rounded-2xl shadow-soft border border-gray-200 overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full">
-                <thead class="bg-gray-50 border-b border-gray-200">
+                <thead class="bg-gray-200 border-b border-gray-200">
                     <tr>
                         <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">ID</th>
                         <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">User</th>

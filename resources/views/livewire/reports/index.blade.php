@@ -5,7 +5,7 @@
         {{-- Title Section --}}
         <div class="flex items-center space-x-4">
             <div>
-                <h1 class="text-3xl font-black text-gray-800 tracking-tight">Reports & Analytics</h1>
+                <h1 class="text-5xl font-black text-gray-800 tracking-tight">Reports & Analytics</h1>
                 <p class="text-gray-600 text-base font-medium">Track your business performance and insights</p>
             </div>
         </div>
@@ -46,7 +46,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
                 </svg>
-                <span class="uppercase tracking-wide">Food Sales</span>
+                <span class="uppercase tracking-wide">Dish Sales</span>
             </button>
         </div>
     </div>
@@ -253,10 +253,10 @@
                     <table class="min-w-full text-sm">
                         <thead style="background-color:rgb(223, 223, 223);">
                             <tr>
-                                <th class="px-6 py-4 text-left font-black text-gray-800 uppercase tracking-widest text-xs">Food</th>
+                                <th class="px-6 py-4 text-left font-black text-gray-800 uppercase tracking-widest text-xs">Dish</th>
                                 <th class="px-6 py-4 text-left font-black text-gray-800 uppercase tracking-widest text-xs">Units Sold</th>
                                 <th class="px-6 py-4 text-left font-black text-gray-800 uppercase tracking-widest text-xs">Revenue</th>
-                                <th class="px-6 py-4 text-left font-black text-gray-800 uppercase tracking-widest text-xs">Food Price</th>
+                                <th class="px-6 py-4 text-left font-black text-gray-800 uppercase tracking-widest text-xs">Dish Price</th>
                                 <th class="px-6 py-4 text-left font-black text-gray-800 uppercase tracking-widest text-xs">Orders</th>
                             </tr>
                         </thead>
@@ -292,7 +292,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
                         </svg>
                     </div>
-                    <p class="text-lg font-bold text-gray-700 mb-1">No Food sales in this period</p>
+                    <p class="text-lg font-bold text-gray-700 mb-1">No Dish sales in this period</p>
                     <p class="text-sm font-medium text-gray-500">Try adjusting your date range to see more data</p>
                 </div>
             @endif

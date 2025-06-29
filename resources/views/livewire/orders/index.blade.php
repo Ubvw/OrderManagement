@@ -5,7 +5,7 @@
         {{-- Title Section --}}
         <div class="flex items-center space-x-4">
             <div>
-                <h1 class="text-3xl font-black text-gray-800 tracking-tight">Orders</h1>
+                <h1 class="text-5xl font-black text-gray-800 tracking-tight">Orders</h1>
                 <p class="text-gray-600 text-base font-medium">Manage and track restaurant orders</p>
             </div>
         </div>
