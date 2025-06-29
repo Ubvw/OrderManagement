@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,8 @@ use App\Livewire\Dashboard\Index as DashboardIndex;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('/', [AuthenticatedSessionController::class, 'store']);
 
 // log out function
 Route::get('/logout', function () {
@@ -48,7 +51,7 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::get('/admin', fn () => 'Welcome Admin!');
     Route::get('/products', \App\Livewire\Products\Index::class)->name('products.index');
     Route::get('/reports', \App\Livewire\Reports\Index::class)->name('reports.index');
-    Route::resource('/users', \App\Http\Controllers\UserController::class);
+    Route::get('/users', \App\Livewire\Users\Index::class)->name('users.index');
 });
 
 require __DIR__.'/auth.php';

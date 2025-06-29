@@ -55,7 +55,7 @@ class Edit extends Component
     public function mount(Order $order)
     {
         // Authorization check 
-        if (Auth::user()->role->name !== 'Food Processor') {
+        if (!in_array(Auth::user()->role->name, ['Admin', 'Food Processor'])) {
             abort(403); // Forbidden
         }
 

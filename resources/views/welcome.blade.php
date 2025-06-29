@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FoodOrder - Sign In</title>
+    <title>Taste of Home - Sign In</title>
     
     {{-- Tailwind CSS --}}
     <script src="https://cdn.tailwindcss.com"></script>
     
-    {{-- Inter Font --}}
+    {{-- Google Fonts - Pacifico and Poppins --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     {{-- Spline 3D Viewer --}}
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.10/build/spline-viewer.js"></script>
@@ -22,40 +22,36 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        'inter': ['Inter', 'system-ui', 'sans-serif'],
+                        'pacifico': ['Pacifico', 'cursive'],
+                        'poppins': ['Poppins', 'system-ui', 'sans-serif'],
                     },
                     colors: {
-                        primary: '#FF6B35',
-                        'primary-dark': '#E55A2B',
-                        'primary-light': '#FF8A5B',
+                        'brand-orange': '#F9A55F',
+                        'brand-green': '#5F8B5C',
+                        'warm-peach': '#FFB87A',
                     },
                     boxShadow: {
-                        'glow-subtle': '0 0 20px rgba(255, 107, 53, 0.15)',
-                        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.3)',
-                        'soft-xl': '0 20px 25px -5px rgba(0, 0, 0, 0.4)',
+                        'warm': '0 10px 25px -5px rgba(249, 165, 95, 0.25)',
+                        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.1)',
+                        'soft-xl': '0 20px 25px -5px rgba(0, 0, 0, 0.15)',
                     },
                     animation: {
-                        'float': 'float 4s ease-in-out infinite',
+                        'float': 'float 6s ease-in-out infinite',
                         'fade-in': 'fadeIn 1s ease-out forwards',
-                        'slide-up': 'slideUp 1s ease-out forwards',
-                        'pulse-glow': 'pulseGlow 4s ease-in-out infinite',
+                        'slide-in': 'slideIn 1s ease-out forwards',
                     },
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-8px)' },
+                            '50%': { transform: 'translateY(-10px)' },
                         },
                         fadeIn: {
-                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
                             '100%': { opacity: '1', transform: 'translateY(0)' },
                         },
-                        slideUp: {
-                            '0%': { opacity: '0', transform: 'translateX(50px)' },
+                        slideIn: {
+                            '0%': { opacity: '0', transform: 'translateX(30px)' },
                             '100%': { opacity: '1', transform: 'translateX(0)' },
-                        },
-                        pulseGlow: {
-                            '0%, 100%': { opacity: '0.3' },
-                            '50%': { opacity: '0.6' },
                         }
                     }
                 }
@@ -65,28 +61,27 @@
     
     <style>
         body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background: #000000;
+            font-family: 'Poppins', system-ui, sans-serif;
         }
         
         /* Custom scrollbar */
         ::-webkit-scrollbar {
-            width: 0px;
+            width: 8px;
         }
         
         ::-webkit-scrollbar-track {
-            background: #111111;
+            background: #f1f1f1;
         }
         
         ::-webkit-scrollbar-thumb {
-            background: #FF6B35;
-            border-radius: 3px;
+            background: #F9A55F;
+            border-radius: 4px;
         }
         
         /* Loading animation */
         .loading-spinner {
             border: 2px solid transparent;
-            border-top: 2px solid #ffffff;
+            border-top: 2px solid #F9A55F;
             border-radius: 50%;
             width: 20px;
             height: 20px;
@@ -101,111 +96,120 @@
         /* Form focus effects */
         .form-input:focus {
             transform: translateY(-1px);
-            box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.3);
+            box-shadow: 0 0 0 3px rgba(249, 165, 95, 0.2);
         }
         
-        /* Spline viewer styling */
-        spline-viewer {
+        /* Outer container - handles watermark hiding */
+        .spline-outer-container {
             width: 100%;
             height: 100%;
+            position: relative;
+            overflow: hidden; /* Keeps watermark hidden */
+            border-radius: 0;
+        }
+        
+        /* Inner container - provides rotation space */
+        .spline-inner-container {
+            width: 200%; /* Much larger to accommodate rotation */
+            height: 200%;
+            position: absolute;
+            top: -50%; /* Center the larger container */
+            left: -50%;
+            overflow: visible; /* Allows rotation without clipping */
+        }
+        
+        /* Spline viewer - ADJUSTED positioning to move up and right */
+        spline-viewer {
+            width: 70%; /* Scaled down since container is larger */
+            height: 70%;
+            position: absolute;
+            top: 11%; /* Moved up from 15% to 5% */
+            left: 17%; /* Moved right from 15% to 25% */
             display: block;
             border-radius: 0;
             background: transparent;
         }
         
-        /* Modern glass effect */
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        
-        /* Subtle text glow */
-        .text-glow {
-            text-shadow: 0 0 10px rgba(255, 107, 53, 0.2);
-        }
-        
-        .robot-container {
+        /* Circular orange background - adjusted positioning */
+        .circular-background {
             position: absolute;
-            right: -300px; /* Extend beyond the container */
-            top: 0;
-            width: 150%;
-            height: 100%;
-        }
-
-        /* Subtle grid pattern - very minimal */
-        .minimal-grid {
-            background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.02) 1px, transparent 0);
-            background-size: 60px 60px;
+            top: 50%;
+            left: 0;
+            width: 120vh;
+            height: 120vh;
+            background: #F9A55F;
+            border-radius: 50%;
+            transform: translateY(-50%) translateX(-25%);
+            z-index: 1;
         }
         
-        /* Professional status indicator */
-        .status-indicator {
-            position: relative;
-        }
-        
-        .status-indicator::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, rgba(255, 107, 53, 0.2), transparent, rgba(255, 107, 53, 0.1));
-            border-radius: inherit;
-            z-index: -1;
+        /* Warm beige background */
+        .warm-beige {
+            background: linear-gradient(135deg, #F5F1EB 0%, #EDE7DD 100%);
         }
     </style>
 </head>
 
-<body class="min-h-screen bg-black font-inter overflow-x-hidden minimal-grid">
-
+<body class="min-h-screen font-poppins overflow-hidden warm-beige">
+    {{-- Circular Orange Background --}}
+    <div class="circular-background"></div>
     
-    {{-- Clean Header --}}
-    <header class="relative z-10 h-32 flex items-center px-8 animate-fade-in">
-        <div class="max-w-7xl mx-auto w-full">
-            <div class="flex items-center">
-                <img src="{{ asset('images/logo.png') }}" alt="FoodOrder" class="w-40 h-40">
+    <div class="min-h-screen flex relative z-10">
+        
+        {{-- Left Side - Content over circular background --}}
+        <div class="flex-1 relative flex flex-col">
+            {{-- Logo Section --}}
+            <div class="absolute top-8 left-8 z-20 animate-fade-in">
+                <div class="flex items-center space-x-3">
+                    {{-- Logo Placeholder - Food Dome Icon --}}
+                    <div class="flex items-center">
+                        <img src="{{ asset('images/logo2.png') }}" alt="TasteOfHome" class="w-63 h-63">
+                    </div>
+                </div>
             </div>
-        </div>
-    </header>
 
-    {{-- Main Content --}}
-    <div class="flex items-center justify-center min-h-[calc(90vh-140px)] px-8 relative z-10">
-        <div class="main-grid-container grid grid-cols-1 lg:grid-cols-2 gap-20 max-w-7xl w-full items-center">
-            
-            {{-- Left Side - Login Form --}}
-            <div class="space-y-10 animate-fade-in max-w-lg relative">
-                <div class="space-y-8">
-                    {{-- Hero Text - removed awkward badge --}}
-                    <div class="space-y-6">
-                        <h2 class="text-6xl md:text-7xl font-black text-white tracking-tight leading-none">
-                            ORDERS UP
-                            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-light to-primary-dark text-glow">
-                                ISSUES DOWN
-                            </span>
-                        </h2>
+            {{-- 3D Restaurant Model Container - Increased Size --}}
+            <div class="flex-1 flex items-center justify-center relative z-10">
+                <div class="w-full max-w-3xl h-[500px] lg:h-[600px] xl:h-[700px] relative animate-float">
+                    <div class="spline-outer-container">
+                        <div class="spline-inner-container">
+                            <spline-viewer url="https://prod.spline.design/IOulcdq7mMUl3hGF/scene.splinecode"></spline-viewer>
+                        </div>
                         
-                        <p class="text-gray-400 text-lg font-medium leading-relaxed max-w-md">
-                            The best way to manage orders instead of chaotic folders, 
-                            deliver efficiency and control at scale.
-                        </p>
-                        
-                        {{-- Professional status indicator --}}
-                        <div class="inline-flex items-center space-x-3 mt-6">
-                            <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                            <span class="text-gray-300 text-sm font-medium">System Online</span>
+                        {{-- Fallback content while Spline loads --}}
+                        <div class="absolute inset-0 flex items-center justify-center" id="splineLoader">
+                            <div class="text-center space-y-4">
+                                <div class="loading-spinner mx-auto w-8 h-8"></div>
+                                <p class="text-white/80 font-medium">Loading 3D Model...</p>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        {{-- Right Side - Login Form --}}
+        <div class="flex-1 flex items-center justify-center p-8 lg:p-16 relative z-10">
+            <div class="w-full max-w-md space-y-8 animate-slide-in">
+                
+                {{-- Welcome Header --}}
+                <div class="text-center space-y-3">
+                    <h2 class="font-pacifico text-brand-green" style="font-size: 32px; line-height: 1.2;">
+                        Welcome Back!
+                    </h2>
+                    <p class="text-brand-green font-poppins font-medium" style="font-size: 24px;">
+                        Sign in to your account
+                    </p>
+                </div>
 
                 {{-- Login Form --}}
-                <form action="{{ route('login') }}" method="POST" class="space-y-6" id="loginForm">
+                <form action="/" method="POST" class="space-y-6" id="loginForm">
                     @csrf
                     
                     <div class="space-y-5">
+                        {{-- Email Field --}}
                         <div>
-                            <label for="email" class="block text-sm font-bold text-gray-300 mb-3">
+                            <label for="email" class="block font-poppins font-semibold text-brand-green mb-3" style="font-size: 16px;">
                                 Email Address
                             </label>
                             <input 
@@ -213,17 +217,18 @@
                                 id="email" 
                                 name="email"
                                 value="{{ old('email') }}"
-                                class="form-input w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-all duration-300 text-lg @error('email') border-red-500 @enderror"
+                                class="form-input w-full px-5 py-4 bg-white/80 border border-brand-orange/30 rounded-2xl text-gray-800 placeholder-gray-500 focus:outline-none focus:border-brand-orange focus:bg-white transition-all duration-300 text-lg font-poppins @error('email') border-red-400 @enderror"
                                 placeholder="Enter your email"
                                 required
                             >
                             @error('email')
-                                <p class="text-red-400 text-sm mt-2 font-medium">{{ $message }}</p>
+                                <p class="text-red-500 text-sm mt-2 font-medium font-poppins">{{ $message }}</p>
                             @enderror
                         </div>
 
+                        {{-- Password Field --}}
                         <div>
-                            <label for="password" class="block text-sm font-bold text-gray-300 mb-3">
+                            <label for="password" class="block font-poppins font-semibold text-brand-green mb-3" style="font-size: 16px;">
                                 Password
                             </label>
                             <div class="relative">
@@ -231,14 +236,14 @@
                                     type="password" 
                                     id="password" 
                                     name="password"
-                                    class="form-input w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-all duration-300 text-lg @error('password') border-red-500 @enderror"
+                                    class="form-input w-full px-5 py-4 bg-white/80 border border-brand-orange/30 rounded-2xl text-gray-800 placeholder-gray-500 focus:outline-none focus:border-brand-orange focus:bg-white transition-all duration-300 text-lg font-poppins @error('password') border-red-400 @enderror"
                                     placeholder="Enter your password"
                                     required
                                 >
                                 <button 
                                     type="button" 
                                     onclick="togglePassword()"
-                                    class="absolute right-5 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                                    class="absolute right-5 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                                 >
                                     <svg id="eyeIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -247,79 +252,52 @@
                                 </button>
                             </div>
                             @error('password')
-                                <p class="text-red-400 text-sm mt-2 font-medium">{{ $message }}</p>
+                                <p class="text-red-500 text-sm mt-2 font-medium font-poppins">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
 
-                    <div class="flex items-center justify-between pt-2">
-                        <label class="flex items-center space-x-3 cursor-pointer">
-                            <input 
-                                type="checkbox" 
-                                name="remember"
-                                class="w-5 h-5 text-primary bg-white/5 border-white/20 rounded focus:ring-primary focus:ring-1 transition-all duration-200"
-                            >
-                            <span class="text-gray-300 text-base font-medium">Remember me</span>
-                        </label>
-
-                        <a href="#" class="text-primary text-base font-bold hover:text-primary-light transition-colors">
-                            Forgot password?
-                        </a>
-                    </div>
-
-                    {{-- Single Sign In Button --}}
+                    {{-- Sign In Button --}}
                     <div class="pt-4">
                         <button 
                             type="submit"
-                            class="w-full bg-gradient-to-r from-gray-200 to-white text-black font-black py-4 px-8 rounded-2xl hover:shadow-glow-subtle transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-lg"
+                            class="w-full text-white font-bold py-4 px-8 rounded-2xl hover:shadow-warm transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-lg font-poppins"
+                            style="background: linear-gradient(135deg, #F89768 6%, #F88870 53%, #F9A55F 96%);"
                             id="submitBtn"
                         >
                             <span id="btnText">Sign In</span>
                             <div id="btnLoading" class="hidden flex items-center justify-center space-x-2">
-                                <div class="loading-spinner border-black"></div>
+                                <div class="loading-spinner"></div>
                                 <span>Signing in...</span>
                             </div>
                         </button>
                     </div>
                 </form>
-            </div>
 
-            {{-- Right Side - 3D Robot (Fixed positioning) --}}
-            <div class="relative h-[800px] md:h-[900px] animate-slide-up overflow-hidden">
-                {{-- 3D Robot Container - moved much further right --}}
-                <div class="robot-container">
-                    <spline-viewer url="https://prod.spline.design/TB3QCWcaxmrpGpqJ/scene.splinecode"></spline-viewer>
-                    
-                    {{-- Fallback content while Spline loads --}}
-                    <div class="absolute inset-0 flex items-center justify-center" id="splineLoader">
-                        <div class="text-center space-y-4">
-                            <div class="loading-spinner mx-auto w-10 h-10 border-primary"></div>
-                            <p class="text-gray-400 font-medium text-lg">Loading...</p>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Enhanced Status Card --}}
-                <div class="status-indicator absolute bottom-32 left-8 glass-effect rounded-2xl p-5 shadow-soft animate-float">
-                    <div class="text-center">
-                        <p class="text-primary font-black text-xl">Always Here</p>
-                        <p class="text-gray-300 text-sm font-medium">Ready to Serve</p>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 
     {{-- Success/Error Messages --}}
     @if(session('success'))
-        <div class="fixed top-8 right-8 bg-emerald-500 text-white px-6 py-4 rounded-2xl shadow-soft-xl z-50 animate-fade-in">
-            {{ session('success') }}
+        <div class="fixed top-8 right-8 bg-green-500 text-white px-6 py-4 rounded-2xl shadow-soft-xl z-50 animate-fade-in">
+            <div class="flex items-center space-x-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="font-poppins">{{ session('success') }}</span>
+            </div>
         </div>
     @endif
 
     @if(session('error'))
         <div class="fixed top-8 right-8 bg-red-500 text-white px-6 py-4 rounded-2xl shadow-soft-xl z-50 animate-fade-in">
-            {{ session('error') }}
+            <div class="flex items-center space-x-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="font-poppins">{{ session('error') }}</span>
+            </div>
         </div>
     @endif
 
@@ -362,12 +340,15 @@
             
             if (splineViewer) {
                 splineViewer.addEventListener('load', function() {
-                    loader.style.opacity = '0';
-                    setTimeout(() => {
-                        loader.style.display = 'none';
-                    }, 500);
+                    if (loader) {
+                        loader.style.opacity = '0';
+                        setTimeout(() => {
+                            loader.style.display = 'none';
+                        }, 500);
+                    }
                 });
                 
+                // Fallback timeout
                 setTimeout(() => {
                     if (loader) {
                         loader.style.opacity = '0';
@@ -375,7 +356,7 @@
                             loader.style.display = 'none';
                         }, 300);
                     }
-                }, 3000);
+                }, 4000);
             }
         });
 

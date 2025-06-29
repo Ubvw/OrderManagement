@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
+use Illuminate\Support\Facades\Route;
 
 new #[Layout('components.layouts.auth')] class extends Component {
     public string $name = '';
@@ -92,8 +93,15 @@ new #[Layout('components.layouts.auth')] class extends Component {
         </div>
     </form>
 
+    @if (Route::has('register'))
+        <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-zinc-600">
+            {{ __('Don\'t have an account?') }}
+            <flux:link :href="route('register')" wire:navigate>{{ __('Sign up') }}</flux:link>
+        </div>
+    @endif
+
     <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-zinc-600">
         {{ __('Already have an account?') }}
-        <flux:link :href="route('login')" wire:navigate>{{ __('Log in') }}</flux:link>
+        <flux:link href="/" wire:navigate>{{ __('Log in') }}</flux:link>
     </div>
 </div>

@@ -1,17 +1,19 @@
 <?php
 
 use App\Models\User;
+use App\Models\Role;
 
 test('login screen can be rendered', function () {
-    $response = $this->get('/login');
+    $response = $this->get('/');
 
     $response->assertStatus(200);
 });
 
 test('users can authenticate using the login screen', function () {
-    $user = User::factory()->create();
+    $adminRole = Role::firstOrCreate(['name' => 'Admin']);
+    $user = User::factory()->create(['role_id' => $adminRole->id]);
 
-    $response = $this->post('/login', [
+    $response = $this->post('/', [
         'email' => $user->email,
         'password' => 'password',
     ]);
@@ -23,7 +25,7 @@ test('users can authenticate using the login screen', function () {
 test('users can not authenticate with invalid password', function () {
     $user = User::factory()->create();
 
-    $this->post('/login', [
+    $this->post('/', [
         'email' => $user->email,
         'password' => 'wrong-password',
     ]);

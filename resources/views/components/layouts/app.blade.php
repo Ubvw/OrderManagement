@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OrderFlow</title>
+    <title>Taste of Home</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -20,8 +20,11 @@
                         'inter': ['Inter', 'system-ui', 'sans-serif'],
                     },
                     colors: {
-                        primary: '#c17010',
-                        'primary-dark': '#ae2e0c',
+                        primary: {
+                            light: '#DF9455',
+                            DEFAULT: '#F9A55F', 
+                            dark: '#C6834C'
+                        }
                     },
                     borderRadius: {
                         '3xl': '1.5rem',
@@ -49,10 +52,7 @@
 
     @livewireStyles
 </head>
-<body class="bg-black min-h-screen flex flex-col font-inter">
-
-    {{-- Include header --}}
-    <x-layouts.header />
+<body class="min-h-screen flex font-inter" style="background-color: #EEE6DE;">
 
     {{-- Page content --}}
     <div class="flex flex-1">
@@ -70,8 +70,8 @@
         @endphp
         <x-layouts.sidebar :activeSection="$section" />
 
-        {{-- Main content with padding for floating cards --}}
-        <main class="flex-1 p-6">
+        {{-- Main content with no extra padding or background --}}
+        <main class="flex-1 p-6 ml-48">
             {{ $slot }}
         </main>
     </div>
